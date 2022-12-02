@@ -1,8 +1,19 @@
 import { NextFunction, Request, Response } from "express";
-import multer from "multer";
+import { predictObject } from "../controllers/ai.controller";
+import { deleteImageFromFileSystem, saveImageInFileSystem } from "../utils/filesystem.utils";
 
-export function mediaMiddleware(req: Request, res: Response, next: NextFunction) {
-    const upload = multer({ dest: './assets' });
-
+export function beforePrediction(req: Request, res: Response, next: NextFunction) {
+    console.log("before prediction middleware");
+    saveImageInFileSystem(req.file);
     next();
+}
+
+export function predictionHandler(req: Request, res: Response, next: NextFunction) {
+    predictObject(req, res);
+    next();
+}
+
+export function afterPredictionCleanup(req: Request) {
+    console.log("after prediction middleware");
+    deleteImageFromFileSystem(req.file);
 }

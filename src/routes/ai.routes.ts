@@ -1,15 +1,18 @@
-import express from "express";
-import multer from "multer";
+import { Router } from "express";
+import { getAiPage } from "../controllers/ai.controller";
+import { beforePrediction, predictionHandler, afterPredictionCleanup } from '../middleware/media.middleware';
+import { upload } from '../config/multer.config';
 
-import { getAiPage, sendPredictionResult, uploadPredictionImage } from "../controllers/ai.controller";
-
-const router = express.Router();
-
-const upload = multer({ dest: './assets' });
+const router = Router();
 
 router
     .get('/', getAiPage)
-    .get('/generate-prediction', sendPredictionResult)
-    .post('/upload-image', upload.single('aiImage'), uploadPredictionImage);
+    .post(
+        '/recognise',
+        upload.single('image'),
+        beforePrediction,
+        predictionHandler,
+        afterPredictionCleanup
+    );
 
 export default router;

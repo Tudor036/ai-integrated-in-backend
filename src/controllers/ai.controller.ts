@@ -1,24 +1,21 @@
 import { Request, Response } from "express";
-import classifyImage from "../utils/tensorflow.utils";
 
 export function getAiPage(req: Request, res: Response) {
     res.render('ai');
 }
 
-export async function sendPredictionResult(req: Request, res: Response) {
-    let aiResponse;
+export async function predictObject(req: Request, res: Response) {
+    console.log('prediction endpoint')
+    let aiResponse = {
+        name: 'Frog',
+        confidence: 0.92939455
+    };
 
-    try {
-        aiResponse = await classifyImage(`frog.jpg`);
-    } catch(err) {
-        console.error(err);
-    }
-    
-    if(aiResponse != undefined) {
+    if (aiResponse != undefined) {
         res.status(201).json({
             status: 'success',
             message: 'Prediction generated succesfully',
-            data: [ aiResponse ]
+            data: [aiResponse]
         });
     } else {
         res.status(500).json({
@@ -26,20 +23,5 @@ export async function sendPredictionResult(req: Request, res: Response) {
             message: 'Internal server error'
         })
     }
-    
-}
 
-export function uploadPredictionImage(req: Request, res: Response) {
-    try {
-        const imageFile = req.file;
-        
-    } catch (err) {
-
-    }
-    res.redirect('/ai/generate-prediction');
-    // res.status(201).json({
-    //     status: 'success',
-    //     message: 'Image uploaded succesfully',
-    //     data: []
-    // });
 }

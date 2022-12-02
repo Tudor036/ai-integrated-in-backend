@@ -2,25 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="description" content="website for object recognition">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prediction Server</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/ai.css">
+    <script src="/javascripts/submitForm.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Ai page</h1>
+        <h1>Object Recognition</h1>
     </header>
+    <p>Upload an image of yours and our AI will tell what that is.</p>
     <main>
-        <form action="/ai/predict-image" enctype="multipart/form-data">
-            <div>
-                <label for="aiImage">Upload image to be analized:</label>
-                <br>
-                <input type="file" name="aiImage" required>
+        <div>
+            <h2 id="analisys-header"></h2>
+            <p id="analisys-description"></p>
+        </div>
+        <form action="/ai/recognise" enctype="multipart/form-data" id="upload-form">
+            <h2>Data to analise</h2>
+            <p>Please upload .jpg files only!</p>
+            <div class="upload-field">
+                <label for="image">Select image:</label>
+                <input type="file" name="image" id="image" required>
             </div>
             <div>
                 <button type="submit">Submit image</button>
             </div>
         </form>
     </main>
+    <footer>
+        <p id="date-paragraph"></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const line = document.getElementById('date-paragraph');
+            line.textContent = new Date().toDateString();
+        })
+    </script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+.error-code, .error-message {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.error-message {
+    font-weight: 600;
+}
